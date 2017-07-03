@@ -42,8 +42,8 @@ filetype plugin indent on    " required
 set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
-:nmap <F8> :SyntasticCheck <CR>
-:inoremap <F8> <C-O>:SyntasticCheck<CR>
+" :nmap <F8> :SyntasticCheck <CR>
+" :inoremap <F8> <C-O>:SyntasticCheck<CR>
 let g:SimpylFold_docstring_preview=1
 
 " PEP-8
@@ -82,7 +82,7 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-set updatetime=50
+set updatetime=10
 au CursorHoldI,CursorHold * :wa
 
 function! ToggleErrors()
@@ -94,8 +94,11 @@ function! ToggleErrors()
     endif
 endfunction
 
-nnoremap <silent> <F7> <C-u>call ToggleErrors()<CR>
-inoremap <silent> <F7> <C-o>:<C-u>call ToggleErrors()<CR>
+nnoremap <silent> <F8> :<C-u>SyntasticCheck<CR> :<C-u>call ToggleErrors()<CR>
+inoremap <silent> <F8> <C-o>:SyntasticCheck<CR><C-o>:<C-u>call ToggleErrors()<CR>
+nnoremap <silent> <F7> :lclose<CR>
+inoremap <silent> <F7> <C-o>:lclose<CR>
+
 :set autoindent
 set cindent
 
