@@ -19,6 +19,9 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'vim-syntastic/syntastic'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'fatih/vim-go'
+Plugin 'tpope/vim-fugitive'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -91,8 +94,29 @@ function! ToggleErrors()
     endif
 endfunction
 
-nnoremap <silent> <F7> :<C-u>call ToggleErrors()<CR>
-inoremap <silent> <F7> :<C-u>call ToggleErrors()<CR>
+nnoremap <silent> <F7> <C-u>call ToggleErrors()<CR>
+inoremap <silent> <F7> <C-o>:<C-u>call ToggleErrors()<CR>
+:set autoindent
+set cindent
+
+autocmd VimLeave *.go !GoFmt
+
+inoremap <C-c> <C-o>$<C-o>a
+inoremap <C-x> <C-o>^<C-o>i
+nnoremap <C-c> $a
+nnoremap <C-x> ^i
+
+inoremap <C-f> <C-o>:GoFmt <CR>
+nnoremap <C-f> :GoFmt <CR>
+
+inoremap <C-g><C-d> <C-o>:Gdiff<CR>
+nnoremap <C-g><C-d> :Gdiff<CR>
+
+inoremap <C-g><C-s> <C-o>:Gstatus<CR>
+nnoremap <C-g><C-s> :Gstatus<CR>
+
+let g:syntastic_go_checkers = ['go', 'golint']
+let g:go_fmt_command = "goimports"
 
 " All system-wide defaults are set in $VIMRUNTIME/debian.vim and sourced by
 " the call to :runtime you can find below.  If you wish to change any of those
