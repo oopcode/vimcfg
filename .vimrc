@@ -42,8 +42,8 @@ filetype plugin indent on    " required
 set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
-" :nmap <F8> :SyntasticCheck <CR>
-" :inoremap <F8> <C-O>:SyntasticCheck<CR>
+" :nmap <F7> :SyntasticCheck <CR>
+" :inoremap <F7> <C-O>:SyntasticCheck<CR>
 let g:SimpylFold_docstring_preview=1
 
 " PEP-8
@@ -82,7 +82,7 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-set updatetime=10
+set updatetime=500
 au CursorHoldI,CursorHold * :wa
 
 function! ToggleErrors()
@@ -90,17 +90,19 @@ function! ToggleErrors()
          " No location/quickfix list shown, open syntastic error location panel
          Errors
     else
-        lclose
+	if empty(filter(tabpagebuflist(), 'getbufvar(v:val, "&buftype") is# "quickfix"'))
+             lclose
+	endif
     endif
 endfunction
 
-nnoremap <silent> <F8> :<C-u>SyntasticCheck<CR> :<C-u>call ToggleErrors()<CR>
-inoremap <silent> <F8> <C-o>:SyntasticCheck<CR><C-o>:<C-u>call ToggleErrors()<CR>
+nnoremap <silent> <F8> :<C-u>SyntasticCheck<CR>:<C-u>:Errors<CR>
+inoremap <silent> <F8> <C-o>:SyntasticCheck<CR><C-o>:<C-u>:Errors<CR>
 nnoremap <silent> <F7> :lclose<CR>
 inoremap <silent> <F7> <C-o>:lclose<CR>
 
-:set autoindent
-set cindent
+" :set autoindent
+" set cindent
 
 autocmd VimLeave *.go !GoFmt
 
@@ -119,7 +121,6 @@ inoremap <C-g><C-s> <C-o>:Gstatus<CR>
 nnoremap <C-g><C-s> :Gstatus<CR>
 
 let g:syntastic_go_checkers = ['go', 'golint']
-let g:go_fmt_command = "goimports"
 
 " All system-wide defaults are set in $VIMRUNTIME/debian.vim and sourced by
 " the call to :runtime you can find below.  If you wish to change any of those
